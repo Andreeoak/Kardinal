@@ -14,7 +14,7 @@
           </p>
         </div>
 
-        <button class="w-full bg-transparent rounded hover:bg-white text-gray-500 p-2 text-left mt-2 text-sm font-medium">
+        <button v-if="list.id === 1" class="w-full bg-transparent rounded hover:bg-white text-gray-500 p-2 text-left mt-2 text-sm font-medium"> <!-- Can only add cards in To do -->
           + Add Card
         </button>
       </div>

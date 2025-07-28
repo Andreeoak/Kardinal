@@ -5,14 +5,21 @@
         <h2 class="mb-2 font-bold">
           {{ list.title }}
         </h2>
-        <div class="bg-white p-2 my-2 rounded shadow cursor-pointer" v-for="task in list.cards">
-          <span class="text-sm font-medium">
-            {{task.title}}
-          </span>
-          <p class="text-xs text-gray-400">
-            {{ task.description }}
-          </p>
-        </div>
+
+
+        <Draggable :list="list.cards" group="cards">
+          <template #item="{element}">
+            <div class="bg-white p-2 my-2 rounded shadow cursor-pointer">
+              <span class="text-sm font-medium">
+                {{element.title}}
+              </span>
+              <p class="text-xs text-gray-400">
+                {{ element.description }}
+              </p>
+            </div>
+          </template>
+        </Draggable>
+
 
         <button v-if="list.id === 1" class="w-full bg-transparent rounded hover:bg-white text-gray-500 p-2 text-left mt-2 text-sm font-medium"> <!-- Can only add cards in To do -->
           + Add Card
@@ -25,6 +32,7 @@
 <script setup lang="ts">
 
 import { reactive } from 'vue'
+import Draggable from 'vuedraggable'
 
 
   interface Card{

@@ -33,19 +33,9 @@
 
 import { reactive } from 'vue'
 import Draggable from 'vuedraggable'
+import type { List } from '@/types';
 
 
-  interface Card{
-    id: number
-    title: string
-    description: string
-  }
-
-  interface List{
-    id: number
-    title: string
-    cards: Card[]
-  }
 
   const lists = reactive<List[]> ([ //reactive is more performant than ref in nested datasets
     {

@@ -21,21 +21,32 @@
         </Draggable>
 
 
-        <button v-if="list.id === 1" class="w-full bg-transparent rounded hover:bg-white text-gray-500 p-2 text-left mt-2 text-sm font-medium"> <!-- Can only add cards in To do -->
+        <button v-if="list.id === 1" class="w-full bg-transparent rounded hover:bg-white text-gray-500 p-2 text-left mt-2 text-sm font-medium" @click="openModal">  <!-- Can only add cards in To do -->
           + Add Card
         </button>
       </div>
     </div>
+    <ModalDialogue :is-open="isModalOpen" @close="closeModal"/>
   </main>
 </template>
 
 <script setup lang="ts">
 
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import Draggable from 'vuedraggable'
 import type { List } from '@/types';
+import ModalDialogue from './components/ModalDialogue.vue';
 
+  const isModalOpen = ref(false)
 
+  const openModal = () => {
+    isModalOpen.value = true
+  }
+
+  const closeModal = () => {
+    isModalOpen.value = false
+
+  }
 
   const lists = reactive<List[]> ([ //reactive is more performant than ref in nested datasets
     {
@@ -60,4 +71,5 @@ import type { List } from '@/types';
       cards: [{ id: 5, title: 'Task 5', description: 'Description for Task 5' }]
     }
   ])
+
 </script>

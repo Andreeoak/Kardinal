@@ -1,27 +1,36 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+  import { ref, watch } from 'vue';
+  import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
+  import { nextTick } from 'vue';
 
+  const props = defineProps<{
+    isOpen: boolean
+  }>()
 
-const props = defineProps<{
-  isOpen: boolean
-}>()
+  const emit = defineEmits<{(e:'close'):void}>()
 
-const emit = defineEmits<{(e:'close'):void}>()
+  const titleInput = ref<HTMLInputElement | null>(null)
 
-const titleInput = ref<HTMLInputElement | null>(null)
+  const modalElement = ref<HTMLDivElement | null>(null)
 
-watch(() => props.isOpen, (isOpen) => {
-  if (isOpen) {
-    setTimeout(() => titleInput.value?.focus(), 0)
-  }
-})
+  const {activate, deactivate} = useFocusTrap(modalElement)
+
+  watch(() => props.isOpen, async (isOpen) => {
+    if (isOpen) {
+      await nextTick()
+      activate()
+      setTimeout(() => titleInput.value?.focus(), 0)
+    } else{
+      deactivate()
+    }
+  })
 
 </script>
 
 
 <template>
 
-  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center" role="dialog" aria-modal="true" v-if="isOpen" @keydown.esc="emit('close')">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center" role="dialog" aria-modal="true" v-if="isOpen" @keydown.esc="emit('close')" ref="modalElement">
     <div class="bg-white p-5 rounded max-w-md w-full">
       <h2 class="text-xl font-bold mb-4">Add New Card</h2>
       <input type="text" placeholder="Card Title"

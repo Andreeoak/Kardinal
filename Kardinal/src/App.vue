@@ -32,20 +32,52 @@
 
 <script setup lang="ts">
 
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import Draggable from 'vuedraggable'
-import type { List } from '@/types';
-import ModalDialogue from './components/ModalDialogue.vue';
+import { type Card, type List } from '@/types';
+import ModalDialogue from '@/components/ModalDialogue.vue';
 
   const isModalOpen = ref(false)
 
-  const openModal = () => {
+  const editingCard = ref<Card | null>(null)
+  const editingListIndex = ref<number | null>(null) // To do, in progress, done
+
+  const modalMode = computed(()=>
+    editingCard.value===null? 'add' : 'edit'
+  )
+
+  const openModal = (listIndex:number, card?: Card) => {
+    editingListIndex.value = listIndex
+    editingCard.value = card === undefined? null: card
     isModalOpen.value = true
+  }
+
+  const saveCard = (card:Card)=> {
+
+    if(editingListIndex.value === null){
+      return
+    }
+    if (modalMode.value ==="add")
+    {
+      const newId = Math.max(...lists.flatMap(list=> list.cards.map(c => c.id)))
+      lists[editingListIndex.value].cards.push({...card, id: newId})
+
+    }else{
+      //modify
+      const cardIndex = lists[editingListIndex.value].cards.findIndex(
+        (cardOnList)=>cardOnList.id === card.id
+      )
+      if(cardIndex !== -1)
+      {
+        lists[editingListIndex.value].cards[cardIndex] = card
+      }
+    }
   }
 
   const closeModal = () => {
     isModalOpen.value = false
-
+    editingListIndex.value = null
+    editingCard.value = null
   }
 
   const lists = reactive<List[]> ([ //reactive is more performant than ref in nested datasets

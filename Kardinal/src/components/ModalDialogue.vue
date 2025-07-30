@@ -30,7 +30,7 @@
 
 <template>
 
-  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center" role="dialog" aria-modal="true" v-if="isOpen" @keydown.esc="emit('close')" ref="modalElement">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center" role="dialog" aria-modal="true" v-if="isOpen" @keydown.esc="emit('close')" ref="modalElement" @click="emit('close')">
     <div class="bg-white p-5 rounded max-w-md w-full">
       <h2 class="text-xl font-bold mb-4">Add New Card</h2>
       <input type="text" placeholder="Card Title"

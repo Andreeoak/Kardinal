@@ -72,6 +72,8 @@ import ModalDialogue from '@/components/ModalDialogue.vue';
         lists[editingListIndex.value].cards[cardIndex] = card
       }
     }
+
+    closeModal()
   }
 
   const closeModal = () => {

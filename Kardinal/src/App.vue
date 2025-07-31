@@ -1,11 +1,11 @@
 <template>
+  <SignatureHeader/>
   <main class="p-5 font-sans bg-gradient-to-r from-mint-200 to-purple-100 h-screen">
     <div class="flex gap-5 py-5 overflow-x-auto">
       <div class="bg-gray-100 p-3 rounded-lg min-w-[350px] flex flex-col" v-for="(list, listIndex) in lists" :key="list.id">
         <h2 class="mb-2 font-bold">
           {{ list.title }}
         </h2>
-
 
         <Draggable :list="list.cards" group="cards" item-key="id">
           <template #item="{element}">
@@ -19,7 +19,6 @@
             </div>
           </template>
         </Draggable>
-
 
         <button v-if="list.id === 1" class="w-full bg-transparent rounded hover:bg-white text-gray-500 p-2 text-left mt-2 text-sm font-medium" @click="openModal(listIndex)">  <!-- Can only add cards in To do -->
           + Add Card
@@ -36,6 +35,7 @@ import { computed, reactive, ref } from 'vue'
 import Draggable from 'vuedraggable'
 import { type Card, type List } from '@/types';
 import ModalDialogue from '@/components/ModalDialogue.vue';
+import SignatureHeader from '@/components/SignatureHeader.vue';
 
   const isModalOpen = ref(false)
 

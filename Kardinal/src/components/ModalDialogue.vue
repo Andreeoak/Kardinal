@@ -33,13 +33,27 @@
     }
   })
 
-  watch(()=>props.card, (newCard)=>{
-    if(newCard){
-      localCard.value = {...newCard}
-    } else{
-      localCard.value = {id: 0, title:'', description:''}
+  watch(() => props.isOpen, async (isOpen) => {
+    if (isOpen) {
+      await nextTick()
+      activate()
+
+      // Se for modo "add", zera os campos manualmente
+      if (props.mode === 'add') {
+        localCard.value = {
+          id: 0,
+          title: '',
+          description: '',
+          priority: 'normal'
+        }
+      }
+
+      setTimeout(() => titleInput.value?.focus(), 0)
+    } else {
+      deactivate()
     }
-  }, {immediate: true})
+  })
+
 
 </script>
 

@@ -77,7 +77,7 @@ yarn dev
 
 ### 📝 Modal de Criação/Edição
 
-* Input obrigatório para título e descrição
+* Input para título e descrição
 * Dropdown para selecionar prioridade
 * Validação com mensagens de erro inline
 

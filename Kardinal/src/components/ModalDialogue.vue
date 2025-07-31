@@ -34,25 +34,27 @@
   })
 
   watch(() => props.isOpen, async (isOpen) => {
-    if (isOpen) {
-      await nextTick()
-      activate()
+  if (isOpen) {
+    await nextTick()
+    activate()
 
-      // Se for modo "add", zera os campos manualmente
-      if (props.mode === 'add') {
-        localCard.value = {
-          id: 0,
-          title: '',
-          description: '',
-          priority: 'normal'
-        }
-      }
-
-      setTimeout(() => titleInput.value?.focus(), 0)
+    // Preenche os dados corretamente com base no modo
+    if (props.mode === 'edit' && props.card) {
+      localCard.value = { ...props.card }
     } else {
-      deactivate()
+      localCard.value = {
+        id: 0,
+        title: '',
+        description: '',
+        priority: 'normal'
+      }
     }
-  })
+
+    setTimeout(() => titleInput.value?.focus(), 0)
+  } else {
+    deactivate()
+  }
+})
 
 
 </script>

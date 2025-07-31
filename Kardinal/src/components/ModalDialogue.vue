@@ -34,27 +34,27 @@
   })
 
   watch(() => props.isOpen, async (isOpen) => {
-  if (isOpen) {
-    await nextTick()
-    activate()
+    if (isOpen) {
+      await nextTick()
+      activate()
 
-    // Preenche os dados corretamente com base no modo
-    if (props.mode === 'edit' && props.card) {
-      localCard.value = { ...props.card }
-    } else {
-      localCard.value = {
-        id: 0,
-        title: '',
-        description: '',
-        priority: 'normal'
+      // Preenche os dados corretamente com base no modo
+      if (props.mode === 'edit' && props.card) {
+        localCard.value = { ...props.card }
+      } else {
+        localCard.value = {
+          id: 0,
+          title: '',
+          description: '',
+          priority: 'normal'
+        }
       }
-    }
 
-    setTimeout(() => titleInput.value?.focus(), 0)
-  } else {
-    deactivate()
-  }
-})
+      setTimeout(() => titleInput.value?.focus(), 0)
+    } else {
+      deactivate()
+    }
+  })
 
 
 </script>

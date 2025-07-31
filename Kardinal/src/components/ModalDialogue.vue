@@ -53,6 +53,20 @@
       aria-label="Card Title" class ="w-full p-2 mb-4 border rounded" ref="titleInput"/>
 
       <textarea v-model="localCard.description" class ="w-full p-2 mb-4 border rounded" placeholder="description" aria-label="Card Description"/>
+
+      <!-- Priority Dropdown -->
+      <label for="priority" class="block mb-1 font-medium">Priority</label>
+      <select
+        id="priority"
+        v-model="localCard.priority"
+        class="w-full p-2 mb-4 border rounded"
+      >
+        <option value="normal">Normal (Yellow)</option>
+        <option value="high">High (Orange)</option>
+        <option value="urgent">Urgent (Red)</option>
+      </select>
+
+
       <div class="flex justify-end gap-2">
         <button class="bg-gray-300 hover:bg-gray-200 text-black px-4 py-2 rounded" @click="emit('close')">
           Cancel

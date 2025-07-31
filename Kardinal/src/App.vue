@@ -1,8 +1,8 @@
 <template>
-  <SignatureHeader/>
+  <SignatureHeader @update-search="searchTerm = $event"/>
   <main class="p-5 font-sans bg-gradient-to-r from-mint-200 to-purple-100 h-screen">
     <div class="flex gap-5 py-5 overflow-x-auto">
-      <div class="bg-gray-100 p-3 rounded-lg min-w-[350px] flex flex-col" v-for="(list, listIndex) in lists" :key="list.id">
+      <div class="bg-gray-100 p-3 rounded-lg min-w-[350px] flex flex-col" v-for="(list, listIndex) in filteredLists" :key="list.id">
         <h2 class="mb-2 font-bold">
           {{ list.title }}
         </h2>
@@ -20,7 +20,7 @@
           </template>
         </Draggable>
 
-        <button v-if="list.id === 1" class="w-full bg-transparent rounded hover:bg-white text-gray-500 p-2 text-left mt-2 text-sm font-medium" @click="openModal(listIndex)">  <!-- Can only add cards in To do -->
+        <button v-if="list.id === 1 && searchTerm === ''" class="w-full bg-transparent rounded hover:bg-white text-gray-500 p-2 text-left mt-2 text-sm font-medium" @click="openModal(listIndex)">  <!-- Can only add cards in To do -->
           + Add Card
         </button>
       </div>
@@ -81,6 +81,26 @@ import SignatureHeader from '@/components/SignatureHeader.vue';
     editingListIndex.value = null
     editingCard.value = null
   }
+
+ const searchTerm = ref('');
+
+  const filteredLists = computed(() => {
+    // lowercase search for case-insensitive matching
+    const term = searchTerm.value.trim().toLowerCase();
+
+    // if there's no term, return the original full list
+    if (!term) return lists;
+
+    // filter cards inside each list
+    return lists.map((list) => ({
+      ...list,
+      cards: list.cards.filter((card) =>
+        card.title.toLowerCase().includes(term) ||
+        card.description.toLowerCase().includes(term)
+      )
+    }));
+  });
+
 
   const lists = reactive<List[]> ([ //reactive is more performant than ref in nested datasets
     {
